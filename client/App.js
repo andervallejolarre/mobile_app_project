@@ -2,7 +2,9 @@ import React, { useState, useEffect } from 'react'
 import { View, StyleSheet, TextInput, Button, Image } from 'react-native'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { BottomNavigation, Text } from 'react-native-paper';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
+
+import axios from 'axios';
 
 import Feed from './views/Feed.js'
 import Search from './views/Search.js'
@@ -42,6 +44,8 @@ export default function App() {
       before.push(label);
       setLabels(before);
       await AsyncStorage.setItem('labels', JSON.stringify(before));
+      console.log('Im here')
+      console.log(labels)
     } catch (error) {
       // Error saving data
     }
@@ -72,17 +76,17 @@ export default function App() {
   const removeRelease = async (release) => {
     try {
       let after = savedReleases.filter(item => item.id !== release.id);
-      setLabels(after);
-      await AsyncStorage.setSavedReleases('savedReleases', JSON.stringify(after));
+      setSavedReleases(after);
+      await AsyncStorage.setItem('savedReleases', JSON.stringify(after));
     } catch (error) {
       // Error saving data
     }
   }
 
   // defining routes with components to be rendered
-  const FeedRoute = () => <Feed styleProps={styles.container} labels={labels} releases={savedReleases} adding={addRelease} />;
-  const SearchRoute = () => <Search styleProps={styles.container} labels={labels} adding={addLabel}/>;
-  const ProfileRoute = () => <Profile styleProps={styles.container} labels={labels} releases={savedReleases} removeLabel={removeLabel} removeRelease={removeRelease}/>;
+  const FeedRoute = () => <Feed styleProps={styles} labels={labels} releases={savedReleases} adding={addRelease} removing={removeRelease} />;
+  const SearchRoute = () => <Search styleProps={styles} labels={labels} adding={addLabel} removing={removeLabel} />;
+  const ProfileRoute = () => <Profile styleProps={styles} labels={labels} releases={savedReleases} removeLabel={removeLabel} removeRelease={removeRelease} />;
 
   // state with active route and labels/icons for routes
   const [state, setState] = useState({
@@ -105,11 +109,13 @@ export default function App() {
 
   return (
     <SafeAreaProvider >
-      <BottomNavigation
-        navigationState={state}
-        onIndexChange={handleIndexChange}
-        renderScene={renderScene}
-      />
+      <SafeAreaView style={{ flex: 1 }}>
+        <BottomNavigation
+          navigationState={state}
+          onIndexChange={handleIndexChange}
+          renderScene={renderScene}
+        />
+      </SafeAreaView>
     </SafeAreaProvider>
   )
 }
@@ -119,6 +125,51 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'center'
   },
+  search: {
+    flex: 1,
+    backgroundColor: '#fff',
+  },
+  searchInputArea: {
+    height: 120,
+    justifyContent:'center',
+    alignItems:'center'
+  },
+  input: {
+    height: 40, //40px height to our input
+    width: 320, //100px width
+    borderColor: 'black', //color of our border
+    borderWidth: 1, //width of our border
+  },
+  outputList: {
+    flex: 1,
+    width: '100%'
+  },
+  scrollView: {
+    backgroundColor: 'pink',
+    flex: 1
+  },
+  list: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    margin: 10,
+  },
+  text: {
+    fontSize: 15,
+    textAlign: 'left',
+  },
+    savedContent: {
+    flex: 1,
+    width: '100%'
+  },
+  savedLabelList:{
+    height:'50%',
+    width: '100%'
+  },
+  savedReleaseList:{
+    height:'50%',
+    width: '100%'
+  }
 });
