@@ -1,10 +1,14 @@
 import React, { useState, useEffect } from 'react'
 import { View, Text, TextInput, Button, ScrollView, Image } from 'react-native'
-import { IconButton, Palette } from 'react-native-paper';
+import { IconButton, Palette, SegmentedButtons } from 'react-native-paper';
 const axios = require('axios');
+import {SERVER_URL} from '../config.js'
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 const Feed = (props) => {
     const [optionReleases, setOptionReleases] = useState([]);
+
+    const [searchPeriod, setSearchPeriod] = useState(0);
 
     useEffect(() => {
         const _retrieveData = async () => {
@@ -18,14 +22,17 @@ const Feed = (props) => {
             }
         }
         _retrieveData();
-    }, [props.labels])
+    }, [props.labels, searchPeriod])
 
     const fetchReleases = async (label) => {
         try {
-            const res = await axios.get(`http://192.168.100.233:4040/discogs/newReleases?q=${label.id}`)
-            const format = res.data.map(x => ({ id: x.id, title: x.title, label:label.title, thumb: x.thumb, artist: x.artist, format: x.format, year: x.year }))
+            const res = await axios.get(`${SERVER_URL}/discogs/newReleases?q=${label.id}`)
+            const format = res.data.map(x => ({ id: x.id, title: x.title, label: label.title, thumb: x.thumb, artist: x.artist, format: x.format, year: x.year }))
             const filtDup = format.filter((item, i) => format.findIndex(x => x.title == item.title) === i);
-            const latestReleases = filtDup.filter((item,i) => item.year == 2026)
+            const latestReleases = filtDup.filter((item, i) =>
+                searchPeriod == 0 ? item.year == 2026
+                    : searchPeriod == 1 ? item.year == 2026 || item.year == 2025
+                        : searchPeriod == 2 && item.year == 2026 || item.year == 2025 || item.year == 2024)
             return (latestReleases);
         } catch (e) {
             console.log(e);
@@ -33,32 +40,64 @@ const Feed = (props) => {
     }
 
     return (
-        <View style={props.styleProps.outputList}>
-            {optionReleases.length > 0 ?
-                <ScrollView style={props.styleProps.scrollView}>
-                    { optionReleases.map((release, i) => (
-                            <View style={props.styleProps.list} key={i}>
-                                <Image style={{ width: 60, height: 60 }} source={{ uri: release.thumb }} />
-                                <View>
-                                <Text style={props.styleProps.text}>{release.artist}</Text>
-                                <Text style={props.styleProps.text}>{release.title}</Text>
-                                <Text style={props.styleProps.text}>{release.label}</Text>
+        <SafeAreaView edges={['top']} style={{ flex: 1, backgroundColor: 'black' }}>
+            <View style={props.styleProps.marginTopArea}>
+                <Text style={props.styleProps.headerText}>Latest Releases</ Text>
+            </View>
+            <SegmentedButtons style={props.styleProps.segmentedButton}
+                value={searchPeriod}
+                onValueChange={setSearchPeriod}
+                buttons={[
+                    {
+                        value: 0,
+                        label: `This Year`,
+                    },
+                    {
+                        value: 1,
+                        label: `Last Two Years`,
+                    },
+                    {
+                        value: 2,
+                        label: `Last Three Years`,
+                    }
+                ]}
+                theme={{ roundness: 0 }}
+            />
+            <View style={props.styleProps.outputList}>
+                {optionReleases.length > 0 ?
+                    <ScrollView style={props.styleProps.scrollView} contentContainerStyle={{ alignItems: 'center' }}>
+                        {optionReleases.map((release, i) => (
+                            <View style={props.styleProps.releasesList} key={i}>
+                                <View style={props.styleProps.topReleaseInfo}>
+                                    <View style={props.styleProps.labelTag}>
+                                    <Text style={props.styleProps.boldText}>{release.label}</Text>
+                                    </View>
+                                    <View style={props.styleProps.iconTag}>
+                                    {props.releases.some(x => x.id == release.id)
+                                        ? <IconButton icon="check-underline" size={20} onPress={() => props.removing(release)} />
+                                        : <IconButton icon="plus" size={20} onPress={() => props.adding(release)} />
+                                    }
+                                    </View>
                                 </ View>
-                                <View>
-                                <Text style={props.styleProps.text}>{release.format}</Text>
-                                <Text style={props.styleProps.text}>{release.year}</Text>
+                                <Image style={{ width: 240, height: 240 }} source={release.thumb ? { uri: release.thumb } : require('../assets/placeholder_1.png')}/>
+                                <View style={props.styleProps.bottomReleaseInfo}>
+                                    <View style={props.styleProps.data1Tag}>
+                                        <Text style={props.styleProps.text}>{release.artist}</Text>
+                                        <Text style={props.styleProps.text}>{release.title}</Text>
+                                    </ View>
+                                    <View style={props.styleProps.data2Tag}>
+                                        <Text style={props.styleProps.text}>{release.format}</Text>
+                                        <Text style={props.styleProps.text}>{release.year}</Text>
+                                    </ View>
                                 </ View>
-                                {props.releases.some(x => x.id == release.id)
-                                    ? <IconButton icon="check-underline" size={20} onPress={() => props.removing(release)} />
-                                    : <IconButton icon="plus" size={20} onPress={() => props.adding(release)} />
-                                }
                             </View>
                         ))
-                    }
-                </ScrollView>
-                : <Text>Here you will see different options of labels</Text>
-            }
-        </View>
+                        }
+                    </ScrollView>
+                    : <Text>Here you will see different options of labels</Text>
+                }
+            </View>
+        </SafeAreaView>
     )
 }
 
