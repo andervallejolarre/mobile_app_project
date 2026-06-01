@@ -6,7 +6,7 @@ Edit the sections below to match project specifics (screenshots, demo links, env
 
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
-A cross-platform mobile app for discovering and curating music releases via Discogs. Browse by labels, track new releases, save favorites to personal profiles, and follow feeds based on your curation preferences.
+A cross-platform mobile app for discovering and curating music releases via Discogs. Browse by labels, track new releases, save favorites on your profiles, and follow feeds based on your curation preferences.
 
 <img src="./client/assets/screenshots/saved-releases.PNG" width="240">
 
