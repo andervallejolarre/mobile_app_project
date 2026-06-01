@@ -1,2 +1,2 @@
-const SERVER_URL = 'http://192.168.100.233:4040'
+const SERVER_URL = 'http://192.168.100.238:4040'
 export {SERVER_URL}
