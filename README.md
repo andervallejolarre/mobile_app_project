@@ -8,7 +8,7 @@ Edit the sections below to match project specifics (screenshots, demo links, env
 
 A cross-platform mobile app for discovering and curating music releases via Discogs. Browse by labels, track new releases, save favorites to personal profiles, and follow feeds based on your curation preferences.
 
-![Profile screen](./client/assets/screenshots/saved-releases.PNG)
+<img src="./client/assets/screenshots/saved-releases.PNG" width="120">
 
 ## Table of Contents
 - [Features](#features)
@@ -31,9 +31,14 @@ A cross-platform mobile app for discovering and curating music releases via Disc
 - **Node.js Backend** seamlessly integrating Discogs API for reliable data delivery.
 
 ## Demo / Screenshots
-- ![Feed screen](./client/assets/screenshots/new-releases-feed.PNG)
-- ![Search screen](./client/assets/screenshots/label-search.PNG)
-- ![Profile screen](./client/assets/screenshots/followed-labels.PNG)
+- Feed Screen - New Releases
+<img src="./client/assets/screenshots/new-releases-feed.PNG" width="120">
+
+- Search Screen - Labels
+<img src="./client/assets/screenshots/label-search.PNG" width="120">
+
+- Profile Screen - Followed Labels
+<img src="./client/assets/screenshots/followed-labels.PNG" width="120">
 
 ## Prerequisites
 - **Discogs Account & API Credentials:** You must create a free account on [Discogs.com](https://www.discogs.com/) and generate an API key and personal access token. [See Discogs API docs](https://www.discogs.com/developers/) for instructions.
