@@ -32,13 +32,13 @@ A cross-platform mobile app for discovering and curating music releases via Disc
 
 ## Demo / Screenshots
 - Feed Screen - New Releases
-<img src="./client/assets/screenshots/new-releases-feed.PNG" width="120">
+<img src="./client/assets/screenshots/new-releases-feed.PNG" width="240">
 
 - Search Screen - Labels
-<img src="./client/assets/screenshots/label-search.PNG" width="120">
+<img src="./client/assets/screenshots/label-search.PNG" width="240">
 
 - Profile Screen - Followed Labels
-<img src="./client/assets/screenshots/followed-labels.PNG" width="120">
+<img src="./client/assets/screenshots/followed-labels.PNG" width="240">
 
 ## Prerequisites
 - **Discogs Account & API Credentials:** You must create a free account on [Discogs.com](https://www.discogs.com/) and generate an API key and personal access token. [See Discogs API docs](https://www.discogs.com/developers/) for instructions.
