@@ -4,8 +4,6 @@ Edit the sections below to match project specifics (screenshots, demo links, env
 -->
 # Mobile App Project
 
-[![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
-
 A cross-platform mobile app for discovering and curating music releases via Discogs. Browse by labels, track new releases, save favorites on your profiles, and follow feeds based on your curation preferences.
 
 <img src="./client/assets/screenshots/saved-releases.PNG" width="240">
@@ -94,16 +92,7 @@ export default {
 }
 ```
 
-## Development
-This section covers tools and processes to improve code quality and speed up development:
-
-- **Linting** (`npm run lint`): Automatically checks your code for style and logic errors, catching bugs early.
-- **Formatting** (`npm run format`): Auto-formats code for consistent style across the team.
-- **Hot Reload**: As you save changes, the app instantly refreshes without restarting:
-  - Client: React fast refresh (Expo/React Native).
-  - Server: `nodemon` watches files and auto-restarts on changes.
-
-Suggested dev workflow:
+## Suggested dev workflow:
 
 ```bash
 # Start server with nodemon
@@ -124,30 +113,6 @@ The server exposes REST endpoints consumed by the mobile client. Below are examp
 
 For the current state, see `server/routes/` and `server/controllers/` for the actual routes and logic implemented.
 
-## Testing
-Testing is not yet implemented in this project. If you'd like to add tests later, run:
-
-```bash
-# Server tests (when configured)
-cd server
-npm test
-
-# Client tests (when configured)
-cd ../client
-npm test
-```
-
-This is a great next step as the project matures!
-
-## Contributing
-Please read `CONTRIBUTING.md` if present. Typical contribution flow:
-
-1. Fork the repo
-2. Create a feature branch
-3. Open a PR with a clear description
-
-Add unit tests and keep changes focused.
-
 ## Troubleshooting / FAQ
 - If the client cannot reach the server, ensure `API_BASE_URL` is correct and the server `PORT` is open.
 - For mobile device testing, use your machine IP (e.g., `http://192.168.x.y:3000`) instead of `localhost`.
@@ -161,9 +126,6 @@ Add unit tests and keep changes focused.
 
 ## Changelog
 - See GitHub Releases for notable changes.
-
-## License
-This project is licensed under the MIT License — see the `LICENSE` file for details.
 
 ## Authors
 - Project maintained by the authors listed in the repository.
